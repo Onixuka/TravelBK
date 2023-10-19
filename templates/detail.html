@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block content %}
+<style>
+  body{
+    background-color: #F3F7FF;
+  }
+</style>
+<div class="container" style="margin-top: 100px; margin-bottom: 100px;">
+  <div class="card ">
+    <div class="card-header ms-3 mt-3"><h1>{{place.name}}</h1></div>
+    <div class="card-body">
+      <img src="{{place.image_cover}}" class="card-img h-100 w-100"
+              alt="...">
+    
+      </div>
+      <p class="p-4 ms-2 fs-4">{{place.description}}</p>
+      <footer class="blockquote-footer text-black ms-4 fs-5">
+        Opening {{place.open_time}}-{{place.close_time}}
+      </footer>
+    </div>
+  </div>
+</div>
+{% endblock %}

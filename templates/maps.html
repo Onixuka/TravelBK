@@ -1,0 +1,94 @@
+{% extends 'base.html' %} {% block content %}
+<style>
+  body{
+    background-color: #F3F7FF;
+  }
+</style>
+
+
+
+
+
+<div class="container mb-5" style="margin-top: 100px;"">
+  <div class="col-12">
+    <div id="map" style="width: 100%; height: 500px;"></div>
+    
+  </div>
+
+  <div class="d-flex align-items-center justify-content-between mb-0 mt-5">
+    <h1 class="h3 mb-0 text-black "><b>รายชื่อสถานที่</b></h1>
+    <div class="justify-content-end">
+      <a href="#" class=" btn btn-primary btn-floating prev-4" style="background: #0075ff;"><i class="fas fa-angle-left text-white"></i></a>
+      <a href="#" class=" btn btn-primary btn-floating next-4" style="background: #0075ff;"><i class="fas fa-angle-right text-white"></i></a>
+    </div>
+  </div>
+
+  <div class="swiper List">
+    <div class="swiper-wrapper">
+      {% for item in places %}
+      <div class="swiper-slide">
+        
+          <div class="card w-100 bg-none">
+            <div class="col">
+            <img src="{{item.image_cover}}"
+              class="card-img-top rounded" alt="Image 4">
+            <div class="card-body"><h5 class="card-title">
+              <h5 class="card-title mb-0 fw-bold"> <a href="/detail/{{item.id}}"> {{item.name}}</a> </h5>
+              <p class="card-text mt-3">{{item.description}}</p>
+              <p class="card-text text-muted"> <b>Openning:</b>{{item.open_time}}-{{item.close_time}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      
+    </div>
+  </div> 
+</div> 
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script>
+      var swiper = new Swiper(".List", {
+          slidesPerView: 1,
+          spaceBetween: 20,
+          // pagination: {
+          //     el: ".swiper-pagination",
+          //     dynamicBullets: true,
+          // },
+          navigation: {
+              nextEl: ".next-4",
+              prevEl: ".prev-4",
+          },
+          breakpoints: {
+              768: {
+                  slidesPerView: 2
+              },
+              1024: {
+                  slidesPerView: 3
+              },
+          },
+      });
+  </script>
+
+
+<script>
+    // Initialize the map
+    var mymap = L.map("map").setView([13.7292631, 100.3788022], 8);
+
+    // Add a tile layer (you can use other map providers)
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+    }).addTo(mymap);
+
+    {% for map_item in places%}
+    // Add markers for places
+    L.marker([{{map_item.latitude}}, {{map_item.longitude}}])
+      .addTo(mymap) // Use "mymap" here, not "map"
+      .bindPopup("{{map_item.name}}")
+
+  {% endfor %}
+</script>
+
+{% endblock %}
